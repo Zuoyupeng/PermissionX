@@ -1,0 +1,34 @@
+package com.android.zuo.permissionx
+
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.android.zuo.mylibrary.PermissionX
+import java.lang.Exception
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        PermissionX.request(this, Manifest.permission.CALL_PHONE) { allGranted, deniedList ->
+            if (allGranted) {
+                call()
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun call() {
+        try {
+            val intent = Intent(Intent.ACTION_CALL)
+            intent.data = Uri.parse("tel:10086")
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+}
